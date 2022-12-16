@@ -4,8 +4,14 @@ let playerLives = 3
 let enemyLives = 3
 
 function startGame() {
-    let buttonPetPlayer = document.getElementById('button-pet')
-    buttonPetPlayer.addEventListener('click', selectPetPlayer)
+    let selectAttackSection = document.getElementById('select-attack')
+    selectAttackSection.style.display = 'none'
+
+    let restartSection = document.getElementById('restart')
+    restartSection.style.display = 'none'
+
+    let buttonAxolotlPlayer = document.getElementById('button-axolotl')
+    buttonAxolotlPlayer.addEventListener('click', selectAxolotlPlayer)
 
     let fireButton = document.getElementById('fire-button')
     fireButton.addEventListener('click', fireAttack)
@@ -18,37 +24,43 @@ function startGame() {
     restartButton.addEventListener('click', restartGame)
 }
 
-function selectPetPlayer(){
-    let inputHipodoge = document.getElementById('hipodoge')
-    let inputCapipepo = document.getElementById('capipepo')
-    let inputRatigueya = document.getElementById('ratigueya')
+function selectAxolotlPlayer(){
+    let selectAxolotlSection = document.getElementById('select-axolotl')
+    selectAxolotlSection.style.display = 'none'
 
-    let spanPlayerPet = document.getElementById('player-pet')
+    let selectAttackSection = document.getElementById('select-attack')
+    selectAttackSection.style.display = 'block'
 
-    if(inputHipodoge.checked) {
-        spanPlayerPet.innerHTML = 'Hipodoge'
-    } else if(inputCapipepo.checked) {
-        spanPlayerPet.innerHTML = 'Capipepo'
-    } else if(inputRatigueya.checked) {
-        spanPlayerPet.innerHTML = 'Ratigueya'      
+    let inputLeucistic = document.getElementById('leucistic')
+    let inputChimera = document.getElementById('chimera')
+    let inputMosaic = document.getElementById('mosaic')
+
+    let spanPlayerAxolotl = document.getElementById('player-axolotl')
+
+    if(inputLeucistic.checked) {
+        spanPlayerAxolotl.innerHTML = 'leucistic'
+    } else if(inputChimera.checked) {
+        spanPlayerAxolotl.innerHTML = 'chimera'
+    } else if(inputMosaic.checked) {
+        spanPlayerAxolotl.innerHTML = 'mosaic'      
     }
     else {
-        alert('Select a pet!')
+        alert('Select a Axolotl!')
     }
 
-    selectEnemyPet()
+    selectEnemyAxolotl()
 }
 
-function selectEnemyPet(){
-    let randomPet = random(1,3)
-    let spanEnemyPet = document.getElementById('enemy-pet')
+function selectEnemyAxolotl(){
+    let randomAxolotl = random(1,3)
+    let spanEnemyAxolotl = document.getElementById('enemy-axolotl')
 
-    if (randomPet==1){
-        spanEnemyPet.innerHTML='Hipodoge'
-    } else if (randomPet==2){
-        spanEnemyPet.innerHTML='Capipepo'
-    } else if (randomPet==3){
-        spanEnemyPet.innerHTML='Ratigueya'
+    if (randomAxolotl==1){
+        spanEnemyAxolotl.innerHTML='Leucistic'
+    } else if (randomAxolotl==2){
+        spanEnemyAxolotl.innerHTML='Chimera'
+    } else if (randomAxolotl==3){
+        spanEnemyAxolotl.innerHTML='Mosaic'
     }
 
 }
@@ -70,6 +82,7 @@ function earthAttack(){
 
 function randomEnemyAttack(){
     let randomAttack = random(1,3)
+
     if(randomAttack == 1){
         enemyAttack = 'Fire'
     } else if(randomAttack == 2){
@@ -77,13 +90,13 @@ function randomEnemyAttack(){
     } else if(randomAttack == 3){
         enemyAttack = 'Earth'
     }
+
     combat()
 }
 
 function combat(){
     let spanPlayerLives = document.getElementById('player-lives')
     let spanEnemyLives = document.getElementById('enemy-lives')
-
 
     if(enemyAttack == playerAttack) {
         createMessage("Draw")
@@ -122,7 +135,7 @@ function createMessage(combatResult){
     let sectionMessages = document.getElementById('messages')
 
     let paragraph = document.createElement('p')
-    paragraph.innerHTML = 'Your pet attacked with ' + playerAttack + ', the enemy pet attacked with ' + enemyAttack + ' - ' + combatResult
+    paragraph.innerHTML = 'Your axolotl attacked with ' + playerAttack + ', the enemy axolotl attacked with ' + enemyAttack + ' - ' + combatResult
 
     sectionMessages.appendChild(paragraph)
 }
@@ -141,6 +154,9 @@ function createFinalMessage(finalResult){
     waterButton.disabled = true
     let earthButton = document.getElementById('earth-button')
     earthButton.disabled = true
+
+    let restartSection = document.getElementById('restart')
+    restartSection.style.display = 'block'
 }
 
 function restartGame(){

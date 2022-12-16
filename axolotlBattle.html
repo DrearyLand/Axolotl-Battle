@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8"/>
+        <title>Axolotl Battle!</title>
+        <script src="./js/axolotlBattle.js"></script>
+    </head>
+    <body>
+        <h1>Axolotl Battle! 🔥💧🌱</h1>
+
+        <section id="select-axolotl">
+            <h2>Choose your axolotl</h2>
+
+            <label for="leucistic">Leucistic Axolotl</label>
+            <input type="radio" name="axolotl" id="leucistic"/>
+
+            <label for="chimera">Chimera Axolotl</label>
+            <input type="radio" name="axolotl" id="chimera"/>
+            
+            <label for="mosaic">Mosaic Axolotl</label>
+            <input type="radio" name="axolotl" id="mosaic"/>
+
+            <button id="button-axolotl">Select</button>
+        </section>
+            
+        <section id="select-attack">
+            <h2>Choose your attack</h2>
+            <p>Your axolotl <span id="player-axolotl"></span> has <span id="player-lives">3</span> lives</p>
+            <p>The enemy axolotl <span id="enemy-axolotl"></span> <span id="enemy-lives">3</span> lives</p>
+            <p>
+                <button id="fire-button">Fire 🔥</button>
+                <button id="water-button">Water 💧</button>
+                <button id="earth-button">Earth 🌱</button>
+            </p>
+        </section>
+
+        <section id="messages">
+        </section>
+
+        <section id="restart">
+            <button id="restart-button">Restart</button>
+        </section>
+
+
+    </body>
+</html>
