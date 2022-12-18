@@ -3,44 +3,73 @@
     <head>
         <meta charset="utf-8"/>
         <title>Axolotl Battle!</title>
-        <script src="./js/axolotlBattle.js"></script>
+        <link rel="stylesheet" href="./styles.css">
     </head>
     <body>
-        <h1>Axolotl Battle! 🔥💧🌱</h1>
 
         <section id="select-axolotl">
-            <h2>Choose your axolotl</h2>
+            <h1 class="title">Axolotl Battle!</h1>
+            <h2 class="subtitle">Choose your axolotl</h2>
 
-            <label for="leucistic">Leucistic Axolotl</label>
-            <input type="radio" name="axolotl" id="leucistic"/>
+            <div class="cards">
+                <input type="radio" name="axolotl" id="leucistic"/>
+                <label class="axolotl-card" for="leucistic">
+                    <p>Leucistic Axolotl</p>
+                    <img src="./assets/leucistic.png" alt="">
+                </label>
 
-            <label for="chimera">Chimera Axolotl</label>
-            <input type="radio" name="axolotl" id="chimera"/>
+                <input type="radio" name="axolotl" id="chimera"/>
+                <label class="axolotl-card" for="chimera">
+                    <p>Chimera Axolotl</p>
+                    <img src="./assets/chimera.png" alt="">
+                </label>
+                
+                <input type="radio" name="axolotl" id="mosaic"/>
+                <label class="axolotl-card" for="mosaic">
+                    <p>Mosaic Axolotl</p>
+                    <img src="./assets/mosaic.png" alt="">
+                </label>
+            </div>
+
             
-            <label for="mosaic">Mosaic Axolotl</label>
-            <input type="radio" name="axolotl" id="mosaic"/>
 
             <button id="button-axolotl">Select</button>
         </section>
             
         <section id="select-attack">
-            <h2>Choose your attack</h2>
-            <p>Your axolotl <span id="player-axolotl"></span> has <span id="player-lives">3</span> lives</p>
-            <p>The enemy axolotl <span id="enemy-axolotl"></span> <span id="enemy-lives">3</span> lives</p>
-            <p>
-                <button id="fire-button">Fire 🔥</button>
-                <button id="water-button">Water 💧</button>
-                <button id="earth-button">Earth 🌱</button>
-            </p>
+            <h1 id="title" class="title">Axolotl Battle!</h1>
+
+            <h2 class="subtitle">Choose your attack:</h2>
+
+            <div class="attack-cards">
+                <button id="fire-button" class="attack-button">Fire 🔥</button>
+                <button id="water-button" class="attack-button">Water 💧</button>
+                <button id="earth-button" class="attack-button">Earth 🌱</button>
+            </div>
+
+            <div id="messages">
+                <p id="result">Good Luck</p>
+                <section id="restart">
+                    <button id="restart-button">Restart</button>
+                </section>
+            </div>
+
+            <div class="attacks">
+                <div class="player-attacks">
+                    <p id="player-lives">3</p>
+                    <p id="player-axolotl"></p>
+                    <div id="player-attacks"></div>
+                </div>
+                <div class="enemy-attacks">
+                    <p id="enemy-lives">3</p> 
+                    <p id="enemy-axolotl"></p> 
+                    <div id="enemy-attacks"></div>
+                </div>
+                <div id="player-attacks"></div>
+                <div id="enemy-attacks"></div>
+            </div>
+            
         </section>
-
-        <section id="messages">
-        </section>
-
-        <section id="restart">
-            <button id="restart-button">Restart</button>
-        </section>
-
-
+        <script src="./js/axolotlBattle.js"></script>
     </body>
 </html>

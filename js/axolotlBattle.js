@@ -1,51 +1,61 @@
+const selectAttackSection = document.getElementById('select-attack')
+const restartSection = document.getElementById('restart')
+const buttonAxolotlPlayer = document.getElementById('button-axolotl')
+const fireButton = document.getElementById('fire-button')
+const waterButton = document.getElementById('water-button')
+const earthButton = document.getElementById('earth-button')
+const restartButton = document.getElementById('restart-button')
+
+const selectAxolotlSection = document.getElementById('select-axolotl')
+const inputLeucistic = document.getElementById('leucistic')
+const inputChimera = document.getElementById('chimera')
+const inputMosaic = document.getElementById('mosaic')
+const spanPlayerAxolotl = document.getElementById('player-axolotl')
+
+const spanEnemyAxolotl = document.getElementById('enemy-axolotl')
+
+const spanPlayerLives = document.getElementById('player-lives')
+const spanEnemyLives = document.getElementById('enemy-lives')
+
+const sectionMessages = document.getElementById('result')
+const playerAttacks = document.getElementById('player-attacks')
+const enemyAttacks = document.getElementById('enemy-attacks')
+
 let playerAttack
 let enemyAttack
 let playerLives = 3
 let enemyLives = 3
 
 function startGame() {
-    let selectAttackSection = document.getElementById('select-attack')
-    selectAttackSection.style.display = 'none'
 
-    let restartSection = document.getElementById('restart')
+    selectAttackSection.style.display = 'none'
     restartSection.style.display = 'none'
 
-    let buttonAxolotlPlayer = document.getElementById('button-axolotl')
     buttonAxolotlPlayer.addEventListener('click', selectAxolotlPlayer)
 
-    let fireButton = document.getElementById('fire-button')
-    fireButton.addEventListener('click', fireAttack)
-    let waterButton = document.getElementById('water-button')
+    fireButton.addEventListener('click', fireAttack)    
     waterButton.addEventListener('click', waterAttack)
-    let earthButton = document.getElementById('earth-button')
     earthButton.addEventListener('click', earthAttack)
 
-    let restartButton = document.getElementById('restart-button')
     restartButton.addEventListener('click', restartGame)
 }
 
 function selectAxolotlPlayer(){
-    let selectAxolotlSection = document.getElementById('select-axolotl')
+
     selectAxolotlSection.style.display = 'none'
 
-    let selectAttackSection = document.getElementById('select-attack')
-    selectAttackSection.style.display = 'block'
-
-    let inputLeucistic = document.getElementById('leucistic')
-    let inputChimera = document.getElementById('chimera')
-    let inputMosaic = document.getElementById('mosaic')
-
-    let spanPlayerAxolotl = document.getElementById('player-axolotl')
+    selectAttackSection.style.display = 'flex'
 
     if(inputLeucistic.checked) {
-        spanPlayerAxolotl.innerHTML = 'leucistic'
+        spanPlayerAxolotl.innerHTML = 'Leucistic'
     } else if(inputChimera.checked) {
-        spanPlayerAxolotl.innerHTML = 'chimera'
+        spanPlayerAxolotl.innerHTML = 'Chimera'
     } else if(inputMosaic.checked) {
-        spanPlayerAxolotl.innerHTML = 'mosaic'      
+        spanPlayerAxolotl.innerHTML = 'Mosaic'      
     }
     else {
         alert('Select a Axolotl!')
+        location.reload()
     }
 
     selectEnemyAxolotl()
@@ -53,7 +63,6 @@ function selectAxolotlPlayer(){
 
 function selectEnemyAxolotl(){
     let randomAxolotl = random(1,3)
-    let spanEnemyAxolotl = document.getElementById('enemy-axolotl')
 
     if (randomAxolotl==1){
         spanEnemyAxolotl.innerHTML='Leucistic'
@@ -95,8 +104,6 @@ function randomEnemyAttack(){
 }
 
 function combat(){
-    let spanPlayerLives = document.getElementById('player-lives')
-    let spanEnemyLives = document.getElementById('enemy-lives')
 
     if(enemyAttack == playerAttack) {
         createMessage("Draw")
@@ -132,30 +139,32 @@ function checkLives(){
 }
 
 function createMessage(combatResult){
-    let sectionMessages = document.getElementById('messages')
 
-    let paragraph = document.createElement('p')
-    paragraph.innerHTML = 'Your axolotl attacked with ' + playerAttack + ', the enemy axolotl attacked with ' + enemyAttack + ' - ' + combatResult
+    let newPlayerAttack = document.createElement('p')
+    let newEnemyAttack = document.createElement('p')
 
-    sectionMessages.appendChild(paragraph)
+    sectionMessages.innerHTML = combatResult
+    newPlayerAttack.innerHTML = playerAttack
+    newEnemyAttack.innerHTML = enemyAttack
+
+    playerAttacks.appendChild(newPlayerAttack)
+    enemyAttacks.appendChild(newEnemyAttack)
+
 }
 
 function createFinalMessage(finalResult){
-    let sectionMessages = document.getElementById('messages')
+    
 
-    let paragraph = document.createElement('p')
-    paragraph.innerHTML = finalResult
+    sectionMessages.innerHTML = finalResult
 
-    sectionMessages.appendChild(paragraph)
-
-    let fireButton = document.getElementById('fire-button')
+    
     fireButton.disabled = true
-    let waterButton = document.getElementById('water-button')
+    
     waterButton.disabled = true
-    let earthButton = document.getElementById('earth-button')
+    
     earthButton.disabled = true
 
-    let restartSection = document.getElementById('restart')
+    
     restartSection.style.display = 'block'
 }
 
