@@ -79,7 +79,7 @@ input:checked + label {
     box-sizing: border-box; 
     border-radius: 20px;
     border-color: transparent;
-    width: 180px;
+    width: 50px;
     color: white;
     font-family: 'Poppins', sans-serif;
 }
@@ -109,12 +109,15 @@ input:checked + label {
 
 #player-lives, #enemy-lives {
     font-size: 32px;
+    font-weight: bold;
     margin-bottom: 0;
+    margin-top: 0;
 }
 
 .player-attacks, .enemy-attacks {
     display: flex;
     flex-direction: column;
+    margin: 5px 5px 5px 5px;
     align-items: center;
 }
 

@@ -11,27 +11,8 @@
             <h1 class="title">Axolotl Battle!</h1>
             <h2 class="subtitle">Choose your axolotl</h2>
 
-            <div class="cards">
-                <input type="radio" name="axolotl" id="leucistic"/>
-                <label class="axolotl-card" for="leucistic">
-                    <p>Leucistic Axolotl</p>
-                    <img src="./assets/leucistic.png" alt="">
-                </label>
-
-                <input type="radio" name="axolotl" id="chimera"/>
-                <label class="axolotl-card" for="chimera">
-                    <p>Chimera Axolotl</p>
-                    <img src="./assets/chimera.png" alt="">
-                </label>
-                
-                <input type="radio" name="axolotl" id="mosaic"/>
-                <label class="axolotl-card" for="mosaic">
-                    <p>Mosaic Axolotl</p>
-                    <img src="./assets/mosaic.png" alt="">
-                </label>
+            <div id="cardsContainer" class="cards">                
             </div>
-
-            
 
             <button id="button-axolotl">Select</button>
         </section>
@@ -41,10 +22,10 @@
 
             <h2 class="subtitle">Choose your attack:</h2>
 
-            <div class="attack-cards">
-                <button id="fire-button" class="attack-button">Fire 🔥</button>
+            <div id="attacksContainer" class="attack-cards">
+                <!-- <button id="fire-button" class="attack-button">Fire 🔥</button>
                 <button id="water-button" class="attack-button">Water 💧</button>
-                <button id="earth-button" class="attack-button">Earth 🌱</button>
+                <button id="earth-button" class="attack-button">Earth 🌱</button> -->
             </div>
 
             <div id="messages">
@@ -56,12 +37,14 @@
 
             <div class="attacks">
                 <div class="player-attacks">
-                    <p id="player-lives">3</p>
+                    <p id="you">You</p>
+                    <p id="player-lives">0</p>
                     <p id="player-axolotl"></p>
                     <div id="player-attacks"></div>
                 </div>
                 <div class="enemy-attacks">
-                    <p id="enemy-lives">3</p> 
+                    <p id="enemy">Enemy</p>
+                    <p id="enemy-lives">0</p> 
                     <p id="enemy-axolotl"></p> 
                     <div id="enemy-attacks"></div>
                 </div>

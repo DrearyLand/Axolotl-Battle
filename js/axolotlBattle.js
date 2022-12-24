@@ -1,15 +1,10 @@
 const selectAttackSection = document.getElementById('select-attack')
 const restartSection = document.getElementById('restart')
 const buttonAxolotlPlayer = document.getElementById('button-axolotl')
-const fireButton = document.getElementById('fire-button')
-const waterButton = document.getElementById('water-button')
-const earthButton = document.getElementById('earth-button')
+restartSection.style.display = 'none'
 const restartButton = document.getElementById('restart-button')
 
 const selectAxolotlSection = document.getElementById('select-axolotl')
-const inputLeucistic = document.getElementById('leucistic')
-const inputChimera = document.getElementById('chimera')
-const inputMosaic = document.getElementById('mosaic')
 const spanPlayerAxolotl = document.getElementById('player-axolotl')
 
 const spanEnemyAxolotl = document.getElementById('enemy-axolotl')
@@ -20,22 +15,92 @@ const spanEnemyLives = document.getElementById('enemy-lives')
 const sectionMessages = document.getElementById('result')
 const playerAttacks = document.getElementById('player-attacks')
 const enemyAttacks = document.getElementById('enemy-attacks')
+const cardsContainer = document.getElementById('cardsContainer')
+const attacksContainer = document.getElementById('attacksContainer')
 
-let playerAttack
-let enemyAttack
+let axolotls = []
+let playerAttack = []
+let enemyAttack = []
+let axolotlsOptions
+let inputLeucistic
+let inputChimera
+let inputMosaic 
+let playerAxolotl
+let axolotlAttacks
+let enemyAxolotlAttacks
+let fireButton
+let waterButton 
+let earthButton  
+let buttons = []
+let indexPlayerAttack
+let indexEnemyAttack
+let playerWins = 0
+let enemyWins = 0
 let playerLives = 3
 let enemyLives = 3
+
+class Axolotl {
+    constructor(name, photo, life){
+        this.name = name
+        this.photo = photo
+        this.live = life
+        this.attacks = []
+    }
+}
+
+let leucistic = new Axolotl('Leucistic', './assets/leucistic.png', 5)
+
+let chimera = new Axolotl('Chimera', './assets/chimera.png', 5)
+
+let mosaic = new Axolotl('Mosaic', './assets/mosaic.png', 5)
+
+leucistic.attacks.push(
+    { name: '💧', id: 'water-button'},
+    { name: '💧', id: 'water-button'},
+    { name: '💧', id: 'water-button'},
+    { name: '🔥', id: 'fire-button'},
+    { name: '🌱', id: 'earth-button'}
+)
+
+chimera.attacks.push(
+    { name: '🌱', id: 'earth-button'},
+    { name: '🌱', id: 'earth-button'},
+    { name: '🌱', id: 'earth-button'},
+    { name: '💧', id: 'water-button'},
+    { name: '🔥', id: 'fire-button'}
+)
+
+mosaic.attacks.push(
+    { name: '🔥', id: 'fire-button'},
+    { name: '🔥', id: 'fire-button'},
+    { name: '🔥', id: 'fire-button'},
+    { name: '💧', id: 'water-button'},
+    { name: '🌱', id: 'earth-button'}
+)
+
+axolotls.push(leucistic,chimera,mosaic)
 
 function startGame() {
 
     selectAttackSection.style.display = 'none'
-    restartSection.style.display = 'none'
+
+    axolotls.forEach((axolotl) => {
+        axolotlsOptions = `
+        <input type="radio" name="axolotl" id=${axolotl.name} />
+        <label class="axolotl-card" for=${axolotl.name}>
+            <p>${axolotl.name}</p>
+            <img src=${axolotl.photo} alt=${axolotl.name}>
+        </label>
+        `
+        cardsContainer.innerHTML += axolotlsOptions
+
+        inputLeucistic = document.getElementById('Leucistic')
+        inputChimera = document.getElementById('Chimera')
+        inputMosaic = document.getElementById('Mosaic')
+
+    })
 
     buttonAxolotlPlayer.addEventListener('click', selectAxolotlPlayer)
-
-    fireButton.addEventListener('click', fireAttack)    
-    waterButton.addEventListener('click', waterAttack)
-    earthButton.addEventListener('click', earthAttack)
 
     restartButton.addEventListener('click', restartGame)
 }
@@ -47,94 +112,145 @@ function selectAxolotlPlayer(){
     selectAttackSection.style.display = 'flex'
 
     if(inputLeucistic.checked) {
-        spanPlayerAxolotl.innerHTML = 'Leucistic'
+        spanPlayerAxolotl.innerHTML = inputLeucistic.id
+        playerAxolotl = inputLeucistic.id
     } else if(inputChimera.checked) {
-        spanPlayerAxolotl.innerHTML = 'Chimera'
+        spanPlayerAxolotl.innerHTML = inputChimera.id
+        playerAxolotl = inputChimera.id
     } else if(inputMosaic.checked) {
-        spanPlayerAxolotl.innerHTML = 'Mosaic'      
+        spanPlayerAxolotl.innerHTML = inputMosaic.id
+        playerAxolotl = inputMosaic.id     
     }
     else {
         alert('Select a Axolotl!')
         location.reload()
     }
 
+    extractAttacks(playerAxolotl)
     selectEnemyAxolotl()
 }
 
-function selectEnemyAxolotl(){
-    let randomAxolotl = random(1,3)
-
-    if (randomAxolotl==1){
-        spanEnemyAxolotl.innerHTML='Leucistic'
-    } else if (randomAxolotl==2){
-        spanEnemyAxolotl.innerHTML='Chimera'
-    } else if (randomAxolotl==3){
-        spanEnemyAxolotl.innerHTML='Mosaic'
+function extractAttacks(playerAxolotl) {
+    let attacks
+    for (let i = 0; i < axolotls.length; i++) {
+        if (playerAxolotl == axolotls[i].name){
+            attacks = axolotls[i].attacks
+        }
     }
+    showAttacks(attacks)
+}
+
+function showAttacks(attacks) {
+    attacks.forEach((attack) => {
+        axolotlAttacks = `<button id=${attack.id} class="attack-button AButton">${attack.name}</button>`
+        attacksContainer.innerHTML += axolotlAttacks
+    })
+    
+    fireButton = document.getElementById('fire-button')
+    waterButton = document.getElementById('water-button')
+    earthButton = document.getElementById('earth-button')
+    buttons = document.querySelectorAll('.AButton')
 
 }
 
-function fireAttack(){
-    playerAttack = 'Fire'
-    randomEnemyAttack()
+function attackSequence() {
+    buttons.forEach((button) => {
+        button.addEventListener('click',(e) => {
+            if (e.target.textContent == '🔥') {
+                playerAttack.push('Fire')
+                console.log(playerAttack)
+                button.style.background = '#112f58'
+                button.disabled = true
+            } else if (e.target.textContent == '💧') {
+                playerAttack.push('Water')
+                console.log(playerAttack)
+                button.style.background = '#112f58'
+                button.disabled = true
+            } else {
+                playerAttack.push('Earth')
+                console.log(playerAttack)
+                button.style.background = '#112f58'
+                button.disabled = true
+            }
+            randomEnemyAttack()
+        })
+    })
 }
 
-function waterAttack(){
-    playerAttack = 'Water'
-    randomEnemyAttack()
-}
+function selectEnemyAxolotl() {
+    let randomAxolotl = random(0,axolotls.length-1)
 
-function earthAttack(){
-    playerAttack = 'Earth'
-    randomEnemyAttack()    
+    spanEnemyAxolotl.innerHTML = axolotls[randomAxolotl].name
+    enemyAxolotlAttacks = axolotls[randomAxolotl].attacks
+    attackSequence()
 }
 
 function randomEnemyAttack(){
-    let randomAttack = random(1,3)
+    let randomAttack = random(0,enemyAxolotlAttacks.length - 1)
 
-    if(randomAttack == 1){
-        enemyAttack = 'Fire'
-    } else if(randomAttack == 2){
-        enemyAttack = 'Water'
-    } else if(randomAttack == 3){
-        enemyAttack = 'Earth'
+    if(randomAttack == 1 || randomAttack == 0){
+        enemyAttack.push('Fire')
+    } else if(randomAttack == 3 || randomAttack == 4){
+        enemyAttack.push('Water')
+    } else {
+        enemyAttack.push('Earth')
     }
+    console.log(enemyAttack)
+    startFight()
+}
 
-    combat()
+function startFight() {
+    if (playerAttack.length == 5) {
+        combat()
+    }
+}
+
+function indexBothOponents(player, enemy) {
+    indexPlayerAttack = playerAttack[player]
+    indexEnemyAttack = enemyAttack[enemy]
 }
 
 function combat(){
 
-    if(enemyAttack == playerAttack) {
-        createMessage("Draw")
-    }else if(playerAttack == 'Fire' && enemyAttack == 'Earth') {
-        enemyLives--
-        spanEnemyLives.innerHTML = enemyLives
-        createMessage("You Won")
-    }else if(playerAttack == 'Water' && enemyAttack == 'Fire') {
-        enemyLives--
-        spanEnemyLives.innerHTML = enemyLives
-        createMessage("You Won")
-    }else if(playerAttack == 'Earth' && enemyAttack == 'Water') {
-        enemyLives--
-        spanEnemyLives.innerHTML = enemyLives
-        createMessage("You Won")
-    }else {
-        createMessage("You Lost")
-        playerLives--
-        spanPlayerLives.innerHTML = playerLives
+    for (let i = 0; i < playerAttack.length; i++) {
+        if (playerAttack[i] == enemyAttack[i]) {
+            indexBothOponents(i, i)
+            createMessage("Draw")
+        } else if (playerAttack[i]== 'Fire' && enemyAttack[i] == 'Earth') {
+            indexBothOponents(i, i)
+            createMessage("You Won")
+            playerWins++
+            spanPlayerLives.innerHTML = playerWins
+        } else if (playerAttack[i]== 'Water' && enemyAttack[i] == 'Fire') {
+            indexBothOponents(i, i)
+            createMessage("You Won")
+            playerWins++
+            spanPlayerLives.innerHTML = playerWins
+        } else if (playerAttack[i]== 'Earth' && enemyAttack[i] == 'Water') {
+            indexBothOponents(i, i)
+            createMessage("You Won")
+            playerWins++
+            spanPlayerLives.innerHTML = playerWins
+        } else {
+            indexBothOponents(i, i)
+            createMessage("You Lost")
+            enemyWins++
+            spanEnemyLives.innerHTML = enemyWins
+        }
     }
 
-    checkLives()
+    checkWins()
 
 }
 
-function checkLives(){
-    if(enemyLives == 0){
-        createFinalMessage("VICTORY 🏆")
-    } else if(playerLives == 0){
-        createFinalMessage("DEFEAT 😒")
-    } 
+function checkWins(){
+    if(playerWins == enemyWins) {
+        createFinalMessage("DRAW")
+    } else if (playerWins > enemyWins){
+        createFinalMessage("VICTORY")
+    } else {
+        createFinalMessage("DEFEAT")
+    }
 
 }
 
@@ -144,8 +260,8 @@ function createMessage(combatResult){
     let newEnemyAttack = document.createElement('p')
 
     sectionMessages.innerHTML = combatResult
-    newPlayerAttack.innerHTML = playerAttack
-    newEnemyAttack.innerHTML = enemyAttack
+    newPlayerAttack.innerHTML = indexPlayerAttack
+    newEnemyAttack.innerHTML = indexEnemyAttack
 
     playerAttacks.appendChild(newPlayerAttack)
     enemyAttacks.appendChild(newEnemyAttack)
@@ -154,16 +270,7 @@ function createMessage(combatResult){
 
 function createFinalMessage(finalResult){
     
-
     sectionMessages.innerHTML = finalResult
-
-    
-    fireButton.disabled = true
-    
-    waterButton.disabled = true
-    
-    earthButton.disabled = true
-
     
     restartSection.style.display = 'block'
 }
