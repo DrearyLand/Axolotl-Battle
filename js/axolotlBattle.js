@@ -18,6 +18,10 @@ const enemyAttacks = document.getElementById('enemy-attacks')
 const cardsContainer = document.getElementById('cardsContainer')
 const attacksContainer = document.getElementById('attacksContainer')
 
+const playerImgContainer = document.getElementById('player-img')
+const enemyImgContainer = document.getElementById('enemy-img')
+const gameAttacks = document.getElementById('battle-log-result')
+
 let axolotls = []
 let playerAttack = []
 let enemyAttack = []
@@ -114,12 +118,15 @@ function selectAxolotlPlayer(){
     if(inputLeucistic.checked) {
         spanPlayerAxolotl.innerHTML = inputLeucistic.id
         playerAxolotl = inputLeucistic.id
+        playerImgContainer.innerHTML = `<img class="axolotl-img" src="./assets/leucistic.png" alt="Leucistic"></img>`
     } else if(inputChimera.checked) {
         spanPlayerAxolotl.innerHTML = inputChimera.id
         playerAxolotl = inputChimera.id
+        playerImgContainer.innerHTML = `<img class="axolotl-img" src="./assets/chimera.png" alt="Leucistic"></img>`
     } else if(inputMosaic.checked) {
         spanPlayerAxolotl.innerHTML = inputMosaic.id
         playerAxolotl = inputMosaic.id     
+        playerImgContainer.innerHTML = `<img class="axolotl-img" src="./assets/mosaic.png" alt="Leucistic"></img>`
     }
     else {
         alert('Select a Axolotl!')
@@ -181,7 +188,9 @@ function selectEnemyAxolotl() {
     let randomAxolotl = random(0,axolotls.length-1)
 
     spanEnemyAxolotl.innerHTML = axolotls[randomAxolotl].name
+    enemyImgContainer.innerHTML = `<img class="axolotl-img" src=${axolotls[randomAxolotl].photo} alt="${axolotls[randomAxolotl].name}"></img>`
     enemyAxolotlAttacks = axolotls[randomAxolotl].attacks
+    
     attackSequence()
 }
 
@@ -262,6 +271,7 @@ function createMessage(combatResult){
     sectionMessages.innerHTML = combatResult
     newPlayerAttack.innerHTML = indexPlayerAttack
     newEnemyAttack.innerHTML = indexEnemyAttack
+    gameAttacks.innerHTML += `<p>${combatResult}</p>`
 
     playerAttacks.appendChild(newPlayerAttack)
     enemyAttacks.appendChild(newEnemyAttack)

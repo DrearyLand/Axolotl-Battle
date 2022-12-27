@@ -85,14 +85,14 @@ input:checked + label {
 }
 
 #messages {
-    width: 200px;
     background: #D5D8B5;
-    padding: 20px;
-    margin-top: 20px;
+    margin: 5px;
     border-radius: 20px;
     display: flex;
     align-items: center;
     flex-direction: column;
+    gap: 12px;
+    justify-content: center;
 }
 
 #restart-button {
@@ -101,9 +101,37 @@ input:checked + label {
     font-family: 'Poppins', sans-serif;
 }
 
+.players {
+    color: white;
+    display: grid;
+    margin: 20px 0px 0px;
+    justify-items: center; 
+    grid-template-columns: 200px 200px 200px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#player-axolotl, #enemy-axolotl {
+    margin: 10px 0px 0px 0px;
+}
+
+#result {
+    font-weight: bold;
+    font-size: 20px;
+    margin: 0px;
+}
+
+.axolotl-img {
+    width: 150px;
+}
+
+.vs-img {
+    width: 120px;
+}
+
 .attacks {
     display: grid;
-    grid-template-columns: 100px 100px;
+    grid-template-columns: 200px 200px 200px;
     color: white;
 }
 
@@ -112,13 +140,47 @@ input:checked + label {
     font-weight: bold;
     margin-bottom: 0;
     margin-top: 0;
+    
 }
 
 .player-attacks, .enemy-attacks {
     display: flex;
     flex-direction: column;
-    margin: 5px 5px 5px 5px;
+    margin: 5px;
     align-items: center;
+    background: #A25B5B;
+    border: black;
+    border-radius: 20px;
+    justify-content: center;
+}
+
+.battle-title {
+    margin: 20px 0px 0px 0px; 
+    display: flex; 
+    align-items: center;
+}
+
+.battle-log{
+    background: #F7A4A4;
+    margin-top: 20px;
+    border-radius: 20px;
+    /* padding: 0px 50px 0px 50px; */
+    color: white;
+}
+
+.battle-titles {
+    color: white;
+    display: grid;
+    justify-items: center; 
+    grid-template-columns: 200px 200px 200px;
+    font-size: 20px;
+    font-weight: bold;
+}
+.game-attacks {
+    display: grid;
+    grid-template-columns: 200px 200px 200px;
+    justify-items: center;
+    text-align: center;
 }
 
 @media (max-width: 360px) {

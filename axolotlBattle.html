@@ -23,33 +23,46 @@
             <h2 class="subtitle">Choose your attack:</h2>
 
             <div id="attacksContainer" class="attack-cards">
-                <!-- <button id="fire-button" class="attack-button">Fire 🔥</button>
-                <button id="water-button" class="attack-button">Water 💧</button>
-                <button id="earth-button" class="attack-button">Earth 🌱</button> -->
             </div>
 
-            <div id="messages">
-                <p id="result">Good Luck</p>
-                <section id="restart">
-                    <button id="restart-button">Restart</button>
-                </section>
+            <div class="players">
+                <p>Your axolotl</p>
+                <p>Result</p>
+                <p>Enemy axolotl</p>
             </div>
 
             <div class="attacks">
                 <div class="player-attacks">
-                    <p id="you">You</p>
-                    <p id="player-lives">0</p>
                     <p id="player-axolotl"></p>
-                    <div id="player-attacks"></div>
+                    <div id="player-img"></div>
+                    <p id="player-lives">0</p>
                 </div>
+
+                <div id="messages">
+                    <img class="vs-img" src="./assets/vs.png" alt="Vs">
+                    <p id="result">Good Luck</p> 
+                    <section id="restart">
+                        <button id="restart-button">Restart</button>
+                    </section>
+                </div>
+
                 <div class="enemy-attacks">
-                    <p id="enemy">Enemy</p>
-                    <p id="enemy-lives">0</p> 
                     <p id="enemy-axolotl"></p> 
+                    <div id="enemy-img"></div>
+                    <p id="enemy-lives">0</p> 
+                </div>
+            </div>
+            <div class="battle-log">
+                <div class="battle-titles">
+                    <p class="battle-title">Your Attacks</p>
+                    <p class="battle-title">Battle Log</p>
+                    <p class="battle-title">Enemy Attacks</p>
+                </div>
+                <div class="game-attacks">
+                    <div id="player-attacks"></div>
+                    <div id="battle-log-result"></div>
                     <div id="enemy-attacks"></div>
                 </div>
-                <div id="player-attacks"></div>
-                <div id="enemy-attacks"></div>
             </div>
             
         </section>
