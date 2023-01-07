@@ -22,6 +22,9 @@ const playerImgContainer = document.getElementById('player-img')
 const enemyImgContainer = document.getElementById('enemy-img')
 const gameAttacks = document.getElementById('battle-log-result')
 
+const sectionViewMap = document.getElementById('view-map')
+const map = document.getElementById('map')
+
 let axolotls = []
 let playerAttack = []
 let enemyAttack = []
@@ -30,6 +33,7 @@ let inputLeucistic
 let inputChimera
 let inputMosaic 
 let playerAxolotl
+let playerAxolotlObject
 let axolotlAttacks
 let enemyAxolotlAttacks
 let fireButton
@@ -42,13 +46,47 @@ let playerWins = 0
 let enemyWins = 0
 let playerLives = 3
 let enemyLives = 3
+let canvas = map.getContext("2d")
+let interval
+let backgroundMap = new Image()
+backgroundMap.src = './assets/swamp.jpg'
+let heightWeSeek
+let mapWidth = window.innerWidth - 30
+const maxWidthMap = 600
+
+if (mapWidth > maxWidthMap) {
+    mapWidth = maxWidthMap - 30
+}
+
+heightWeSeek = mapWidth * 600 / 800
+
+map.width = mapWidth
+map.height = heightWeSeek
+
 
 class Axolotl {
-    constructor(name, photo, life){
+    constructor(name, photo, life, x = 10, y = 10){
         this.name = name
         this.photo = photo
         this.live = life
         this.attacks = []
+        this.width = 60
+        this.height = 60
+        this.x = random(0, map.width - this.width)
+        this.y = random(0, map.height - this.height)
+        this.mapPhoto = new Image()
+        this.mapPhoto.src = photo
+        this.velocityX = 0
+        this.velocityY = 0
+    }
+    paintAxolotl() {
+        canvas.drawImage(
+            this.mapPhoto,
+            this.x,
+            this.y,
+            this.width,
+            this.height
+        )
     }
 }
 
@@ -56,9 +94,23 @@ let leucistic = new Axolotl('Leucistic', './assets/leucistic.png', 5)
 
 let chimera = new Axolotl('Chimera', './assets/chimera.png', 5)
 
-let mosaic = new Axolotl('Mosaic', './assets/mosaic.png', 5)
+let mosaic = new Axolotl('Mosaic', './assets/mosaic.png', 5, )
+
+let leucisticEnemy = new Axolotl('Leucistic', './assets/leucistic.png', 5)
+
+let chimeraEnemy = new Axolotl('Chimera', './assets/chimera.png', 5)
+
+let mosaicEnemy = new Axolotl('Mosaic', './assets/mosaic.png', 5)
 
 leucistic.attacks.push(
+    { name: '💧', id: 'water-button'},
+    { name: '💧', id: 'water-button'},
+    { name: '💧', id: 'water-button'},
+    { name: '🔥', id: 'fire-button'},
+    { name: '🌱', id: 'earth-button'}
+)
+
+leucisticEnemy.attacks.push(
     { name: '💧', id: 'water-button'},
     { name: '💧', id: 'water-button'},
     { name: '💧', id: 'water-button'},
@@ -74,7 +126,23 @@ chimera.attacks.push(
     { name: '🔥', id: 'fire-button'}
 )
 
+chimeraEnemy.attacks.push(
+    { name: '🌱', id: 'earth-button'},
+    { name: '🌱', id: 'earth-button'},
+    { name: '🌱', id: 'earth-button'},
+    { name: '💧', id: 'water-button'},
+    { name: '🔥', id: 'fire-button'}
+)
+
 mosaic.attacks.push(
+    { name: '🔥', id: 'fire-button'},
+    { name: '🔥', id: 'fire-button'},
+    { name: '🔥', id: 'fire-button'},
+    { name: '💧', id: 'water-button'},
+    { name: '🌱', id: 'earth-button'}
+)
+
+mosaicEnemy.attacks.push(
     { name: '🔥', id: 'fire-button'},
     { name: '🔥', id: 'fire-button'},
     { name: '🔥', id: 'fire-button'},
@@ -87,6 +155,7 @@ axolotls.push(leucistic,chimera,mosaic)
 function startGame() {
 
     selectAttackSection.style.display = 'none'
+    sectionViewMap.style.display = 'none'
 
     axolotls.forEach((axolotl) => {
         axolotlsOptions = `
@@ -113,7 +182,7 @@ function selectAxolotlPlayer(){
 
     selectAxolotlSection.style.display = 'none'
 
-    selectAttackSection.style.display = 'flex'
+    sectionViewMap.style.display = 'flex'
 
     if(inputLeucistic.checked) {
         spanPlayerAxolotl.innerHTML = inputLeucistic.id
@@ -134,7 +203,7 @@ function selectAxolotlPlayer(){
     }
 
     extractAttacks(playerAxolotl)
-    selectEnemyAxolotl()
+    startMap()
 }
 
 function extractAttacks(playerAxolotl) {
@@ -163,12 +232,12 @@ function showAttacks(attacks) {
 function attackSequence() {
     buttons.forEach((button) => {
         button.addEventListener('click',(e) => {
-            if (e.target.textContent == '🔥') {
+            if (e.target.textContent === '🔥') {
                 playerAttack.push('Fire')
                 console.log(playerAttack)
                 button.style.background = '#112f58'
                 button.disabled = true
-            } else if (e.target.textContent == '💧') {
+            } else if (e.target.textContent === '💧') {
                 playerAttack.push('Water')
                 console.log(playerAttack)
                 button.style.background = '#112f58'
@@ -184,17 +253,18 @@ function attackSequence() {
     })
 }
 
-function selectEnemyAxolotl() {
-    let randomAxolotl = random(0,axolotls.length-1)
+function selectEnemyAxolotl(enemy) {
+    // let randomAxolotl = random(0,axolotls.length-1)
 
-    spanEnemyAxolotl.innerHTML = axolotls[randomAxolotl].name
-    enemyImgContainer.innerHTML = `<img class="axolotl-img" src=${axolotls[randomAxolotl].photo} alt="${axolotls[randomAxolotl].name}"></img>`
-    enemyAxolotlAttacks = axolotls[randomAxolotl].attacks
+    spanEnemyAxolotl.innerHTML = enemy.name
+    enemyImgContainer.innerHTML = `<img class="axolotl-img" src=${enemy.photo} alt="${enemy.name}"></img>`
+    enemyAxolotlAttacks = enemy.attacks
     
     attackSequence()
 }
 
 function randomEnemyAttack(){
+    console.log(enemyAxolotlAttacks)
     let randomAttack = random(0,enemyAxolotlAttacks.length - 1)
 
     if(randomAttack == 1 || randomAttack == 0){
@@ -291,6 +361,121 @@ function restartGame(){
 
 function random(min,max) {
     return Math.floor(Math.random()*(max-min+1)+min)
+}
+
+function paintCanvas() {
+
+    playerAxolotlObject.x += playerAxolotlObject.velocityX
+    playerAxolotlObject.y += playerAxolotlObject.velocityY 
+    canvas.clearRect(0,0, map.width, map.height)
+    canvas.drawImage(
+        backgroundMap,
+        0,
+        0,
+        map.width,
+        map.width
+    )
+    playerAxolotlObject.paintAxolotl()
+    leucisticEnemy.paintAxolotl()
+    chimeraEnemy.paintAxolotl()
+    mosaicEnemy.paintAxolotl()
+
+    if (playerAxolotlObject.velocityX != 0 || playerAxolotlObject.velocityY != 0) {
+        reviewCollision(leucisticEnemy)
+        reviewCollision(chimeraEnemy)
+        reviewCollision(mosaicEnemy)
+    }
+}
+
+function moveRight() {
+    playerAxolotlObject.velocityX = 5
+}
+
+function moveLeft() {
+    playerAxolotlObject.velocityX = -5
+}
+
+function moveDown() {
+    playerAxolotlObject.velocityY = 5
+}
+
+function moveUp() {
+    playerAxolotlObject.velocityY = -5
+}
+
+function stopMovement() {
+    playerAxolotlObject.velocityX = 0
+    playerAxolotlObject.velocityY = 0
+}
+
+function keyPressed(event) {
+    switch (event.key) {
+        case 'ArrowUp':
+            moveUp()
+            break
+        case 'ArrowDown':
+            moveDown()
+            break
+        case 'ArrowRight':
+            moveRight()
+            break
+        case 'ArrowLeft':
+            moveLeft()
+            break
+        default:
+            break
+    }
+}
+
+function startMap() {
+    // map.width = 843
+    // map.height = 596    
+    playerAxolotlObject = obtainAxolotlObject(playerAxolotl)
+    console.log(playerAxolotlObject, playerAxolotl);
+    interval = setInterval(paintCanvas, 50)
+
+    window.addEventListener('keydown', keyPressed)
+    window.addEventListener('keyup', stopMovement)
+}
+
+function obtainAxolotlObject() {
+    for (let i = 0; i < axolotls.length; i++) {
+        if (playerAxolotl == axolotls[i].name){
+            return axolotls[i]
+        }
+    }
+}
+
+function reviewCollision(enemy) {
+    const upEnemy = enemy.y
+    const downEnemy = enemy.y + enemy.height
+    const rightEnemy = enemy.x + enemy.width
+    const leftEnemy = enemy.x
+
+    const upAxolotl = 
+        playerAxolotlObject.y
+    const downAxolotl =     
+        playerAxolotlObject.y + playerAxolotlObject.height
+    const rightAxolotl = 
+        playerAxolotlObject.x + playerAxolotlObject.width
+    const leftAxolotl = 
+        playerAxolotlObject.x
+
+    if(
+        downAxolotl < upEnemy || 
+        upAxolotl > downEnemy ||
+        rightAxolotl < leftEnemy ||
+        leftAxolotl > rightEnemy
+    ){
+        return
+    }
+
+    stopMovement()
+    clearInterval(interval)
+    console.log('Collision detected')
+    selectAttackSection.style.display = 'flex'
+    sectionViewMap.style.display = 'none'
+    selectEnemyAxolotl(enemy)
 }
 
 window.addEventListener('load', startGame)

@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Axolotl Battle!</title>
         <link rel="stylesheet" href="./styles.css">
     </head>
@@ -17,6 +18,19 @@
             <button id="button-axolotl">Select</button>
         </section>
             
+        <section id="view-map">
+            <h2 class="subtitle">Explore the map with your axolotl</h2>
+            <canvas id="map"></canvas>
+            <button onmouseup="stopMovement()" onmousedown="moveUp()">Up</button>
+            <div>
+                <button onmouseup="stopMovement()" onmousedown="moveLeft()">Left</button>
+                <button onmouseup="stopMovement()" onmousedown="moveDown()">Down</button>
+                <button onmouseup="stopMovement()" onmousedown="moveRight()">Right</button>
+            </div>
+            
+
+        </section>
+
         <section id="select-attack">
             <h1 id="title" class="title">Axolotl Battle!</h1>
 
@@ -25,20 +39,16 @@
             <div id="attacksContainer" class="attack-cards">
             </div>
 
-            <div class="players">
-                <p>Your axolotl</p>
-                <p>Result</p>
-                <p>Enemy axolotl</p>
-            </div>
-
             <div class="attacks">
                 <div class="player-attacks">
+                    <p class="info-card">Your axolotl</p>
                     <p id="player-axolotl"></p>
                     <div id="player-img"></div>
                     <p id="player-lives">0</p>
                 </div>
 
                 <div id="messages">
+                    <p class="info-card">Result</p>
                     <img class="vs-img" src="./assets/vs.png" alt="Vs">
                     <p id="result">Good Luck</p> 
                     <section id="restart">
@@ -47,23 +57,28 @@
                 </div>
 
                 <div class="enemy-attacks">
+                    <p class="info-card">Enemy axolotl</p>
                     <p id="enemy-axolotl"></p> 
                     <div id="enemy-img"></div>
                     <p id="enemy-lives">0</p> 
                 </div>
             </div>
-            <div class="battle-log">
-                <div class="battle-titles">
-                    <p class="battle-title">Your Attacks</p>
-                    <p class="battle-title">Battle Log</p>
-                    <p class="battle-title">Enemy Attacks</p>
-                </div>
-                <div class="game-attacks">
+            
+            <div class="game-attacks">
+                <div>
+                    <p class="info-card">Your Attacks</p>
                     <div id="player-attacks"></div>
+                </div>
+                <div>
+                    <p class="info-card" id="battle-log" >Battle Log</p>
                     <div id="battle-log-result"></div>
+                </div>
+                <div>
+                    <p class="info-card">Enemy Attacks</p>
                     <div id="enemy-attacks"></div>
                 </div>
             </div>
+
             
         </section>
         <script src="./js/axolotlBattle.js"></script>
