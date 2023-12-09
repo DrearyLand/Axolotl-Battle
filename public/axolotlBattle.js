@@ -161,7 +161,7 @@ function startGame() {
 }
 
 function joinToGame() {
-    fetch("http://192.168.0.11:8080/join")
+    fetch("http://192.168.0.5:8080/join")
         .then(function (ans) {
             if (ans.ok) {
                 ans.text()
@@ -203,7 +203,7 @@ function selectAxolotlPlayer(){
 }
 
 function selectAxolotl(playerAxolotl) {
-    fetch(`http://192.168.0.11:8080/axolotl/${playerID}`, {
+    fetch(`http://192.168.0.5:8080/axolotl/${playerID}`, {
     method: "post",
     headers: {
         "Content-Type": "application/json"
@@ -264,7 +264,7 @@ function attackSequence() {
 }
 
 function sendAttacks() {
-    fetch(`http://192.168.0.11:8080/axolotl/${playerID}/attacks`, {
+    fetch(`http://192.168.0.5:8080/axolotl/${playerID}/attacks`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
@@ -278,7 +278,7 @@ function sendAttacks() {
 }
 
 function obtainAttacks() {
-    fetch(`http://192.168.0.11:8080/axolotl/${enemyID}/attacks`)
+    fetch(`http://192.168.0.5:8080/axolotl/${enemyID}/attacks`)
         .then(function (ans) {
             if (ans.ok) {
                 ans.json()
@@ -427,7 +427,7 @@ function paintCanvas() {
 }
 
 function sendPosition(x, y) {
-    fetch(`http://192.168.0.11:8080/axolotl/${playerID}/position`, {
+    fetch(`http://192.168.0.5:8080/axolotl/${playerID}/position`, {
         method: "post",
         headers: {
             "Content-Type": "application/json"
