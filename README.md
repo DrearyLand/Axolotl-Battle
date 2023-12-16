@@ -1,0 +1,3 @@
+# Axolotl Battle
+
+"Axolotl Battle" is an exhilarating web-based game crafted using essential web development technologies: HTML, CSS, JavaScript, and Node.js. Set in an underwater realm, players control distinct axolotl characters in dynamic battles. HTML structures the game, CSS enhances its visual appeal, and JavaScript enables real-time, strategic gameplay. Node.js facilitates seamless multiplayer interactions, connecting players globally for intense axolotl showdowns. Each axolotl boasts unique attributes and abilities, encouraging strategic customization. With a user-friendly interface, engaging visuals, and responsive controls, "Axolotl Battle" promises an entertaining experience in the charming world of axolotls.
